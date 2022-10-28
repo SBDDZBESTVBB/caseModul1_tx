@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="taixiu.css">
+    <script src="jstaixiu.js"></script>
+    <script src="dangki_dangnhap.js"></script>
+
+</head>
+<body background="Anhbaitap/backgroundbody.jpg">
+
+<div style="text-align: center;">
+    <div id="divBg">
+        <div id="pointsss">Point=10000</div>
+        <div id="anhxx1"><img src="Anhbaitap/xucxac1diem.png" alt=""></div>
+        <div id="anhxx2"><img src="Anhbaitap/xucxac1diem.png" alt=""></div>
+        <div id="anhxx3"><img src="Anhbaitap/xucxac1diem.png" alt=""></div>
+        <div id="id-object"><img src="Anhbaitap/hinhtronmaudo.png" alt="">
+            <div id="clock">10</div>
+        </div>
+        <div id="cautaixiu">
+            <img id="anhkq0" src="Anhbaitap/hinhtronmautrang.png" alt="">
+            <img id="anhkq1" src="Anhbaitap/hinhtronmautrang.png" alt="">
+            <img id="anhkq2" src="Anhbaitap/hinhtronmautrang.png" alt="">
+            <img id="anhkq3" src="Anhbaitap/hinhtronmautrang.png" alt="">
+            <img id="anhkq4" src="Anhbaitap/hinhtronmautrang.png" alt="">
+            <img id="anhkq5" src="Anhbaitap/hinhtronmautrang.png" alt="">
+            <img id="anhkq6" src="Anhbaitap/hinhtronmautrang.png" alt="">
+            <img id="anhkq7" src="Anhbaitap/hinhtronmautrang.png" alt=""></div>
+        <input type="number"  id="tiendatcuoc">
+        <button id="chontai" type="button" onclick="chontai()">Chon tai</button>
+        <button id="chonxiu" type="button" onclick="chonxiu()">Chon xiu</button>
+        <button id="dangxuat" type="reset" onclick="dangxuat()">Đăng xuất</button>
+    </div>
+</div>
+<dialog open id="loginDialog">
+    Nhập username: <input id="usernamelogin" placeholder="username"> <br>
+    Nhập Password: <input id="passwordlogin" placeholder="password" type="password"><br>
+    <br>
+    <button id="loginBtn" onclick="login()">Đăng Nhập</button>
+    <button id="dangkyBtn" onclick="dangky()">Đăng Ký</button>
+</dialog>
+<dialog id="registerDialog">
+    Nhập username: <input id="usernameregister" placeholder="username"> <br>
+    Nhập Password: <input id="passwordregister" placeholder="password" type="password"><br>
+    Nhập Point: <input id="point" placeholder="point" type="number"><br>
+    <br>
+    <button id="pointBtn" onclick="register()">Đăng ký</button>
+</dialog>
+<dialog id="playDialog">
+    <p>
+        - Dự đoán kết quả 3 mặt của xúc xắc <br>
+        - Đặt cược bằng điểm của player<br>
+        - Thua cuộc khi hết điểm <br>
+        - Chúc may mắn </br>
+    </p>
+    <button id="playBtn" onclick="gameplay()">PLAY</button>
+</dialog>
+<dialog id="loseDialog">
+    <p>Thua rồi, nạp thêm tiền đi </p>
+    <input type="number" id="naptien">
+    <button id="loseBtn" onclick="gamereset()" type="reset">Nap tien</button>
+</dialog>
+<audio controls autoplay loop id="audio">
+    <source src="kiepDoden.mp3" type="audio/mpeg">
+</audio>
+</body>
+</html>
+<script>
+    let point
+    let t
+    let x
+    let second = 15
+    let chon = -1
+    let enableMouse = false;
+    let anhketqua = new Array();
+    let gamechay;
+    let userid;
+
+
+    anhketqua[0] = 'Anhbaitap/hinhtronmautrang.png';
+    anhketqua[1] = 'Anhbaitap/hinhtronmautrang.png';
+    anhketqua[3] = 'Anhbaitap/hinhtronmautrang.png';
+    anhketqua[4] = 'Anhbaitap/hinhtronmautrang.png';
+    anhketqua[5] = 'Anhbaitap/hinhtronmautrang.png';
+    anhketqua[6] = 'Anhbaitap/hinhtronmautrang.png';
+    anhketqua[7] = 'Anhbaitap/hinhtronmautrang.png';
+    init()
+
+
+    function gameplay() {
+        
+        playDialog.close();
+        document.getElementById('pointsss').innerText = 'Point' + '=' + point;
+        gamechay = setInterval(gamerun, 1000);
+    }
+
+    function gamereset() {
+        point= +document.getElementById('naptien').value;
+        accounts[userid].points=point;
+        localStorage.setItem("accounts", JSON.stringify(accounts));
+        loseDialog.close();
+        document.getElementById('pointsss').innerText = 'Point' + '='+point;
+        gamechay = setInterval(gamerun, 1000);
+    }
+
+
+    function gamerun() {
+        if (second > 5) {
+            second--;
+            document.getElementById('clock').innerText = second - 5;
+        }
+        if (second == 5) {
+            second--
+            drawXx();
+            batNan();
+        }
+        if (second < 5) {
+            second--
+        }
+        if (second == 0) {
+            tinhDiem();
+            drawcau()
+            second = 15;
+            document.getElementById('id-object').style.top = '90px';
+            document.getElementById('id-object').style.left = '700px';
+        }
+    }
+
+    function dangxuat() {
+        location.reload()
+    }
+</script>
